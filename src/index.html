@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Todo List</title>
+  </head>
+  <body>
+    <div class="custom-container">
+      <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Todo List</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasDarkNavbar"
+            aria-controls="offcanvasDarkNavbar"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div
+            class="offcanvas offcanvas-end text-bg-dark"
+            tabindex="-1"
+            id="offcanvasDarkNavbar"
+            aria-labelledby="offcanvasDarkNavbarLabel"
+          >
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">
+                Options
+              </h5>
+              <button
+                type="button"
+                class="btn-close btn-close-white"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-link" id="add-project">
+                  Create New Project
+                </li>
+                <form class="new-project-form mt-1 collapse">
+                  <li class="nav-item mb-3">
+                    <input type="text" name="name" class="form-control" placeholder="Project Name">
+                  </li>
+                  <li class="d-grid gap-2 mt-2">
+                    <button class="btn btn-outline-success" id="project-form" type="submit" value="Add">Add</button>
+                  </li>
+                </form>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-link">
+                  Projects
+                  <li>Project 1</li>
+                  <li>Project 2</li>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div class="container-md p-3 mt-3">
+        <div class="container-md p-3 mt-3 text-bg-dark">
+          <h1>Project 1</h1>
+        </div>
+        <div class="container-md p-3">
+          <button type="button" class="btn btn-secondary btn-lg btn-block">Add New Task</button>
+        </div>
+      </div>
+      <div class="container-fluid collapse">
+        <div class="container-fluid text-center text-bg-secondary p-3 mt-3 project">
+          Summer 23
+        </div>
+        <div class="list-group mt-3">
+          <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Completed
+                </label>
+              </div>
+              <small class="text-muted">Date</small>
+              <div class="btn-group dropup">
+                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Actions
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  <li><button class="dropdown-item" type="button">Edit</button></li>
+                  <li><button class="dropdown-item" type="button">Delete</button></li>
+                </ul>
+              </div>
+            </div>
+            <h5 class="mb-1">Title</h5>
+            <p class="mb-1">Details</p>
+          </a>
+        </div>
+        <div class="container-fluid text-center text-bg-secondary p-3 mt-3 project">
+          Winter 23
+        </div>
+        <div class="list-group mt-3">
+          <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Completed
+                </label>
+              </div>
+              <small class="text-muted">Date</small>
+              <div class="btn-group dropup">
+                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Actions
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  <li><button class="dropdown-item" type="button">Edit</button></li>
+                  <li><button class="dropdown-item" type="button">Delete</button></li>
+                </ul>
+              </div>
+            </div>
+            <h5 class="mb-1">Title</h5>
+            <p class="mb-1">Details</p>
+          </a>
+        </div>
+        <div class="container-fluid text-center text-bg-secondary p-3 mt-3 project">
+          Workout Plan
+        </div>
+        <div class="list-group mt-3">
+          <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Completed
+                </label>
+              </div>
+              <small class="text-muted">Date</small>
+              <div class="btn-group dropup">
+                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Actions
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  <li><button class="dropdown-item" type="button">Edit</button></li>
+                  <li><button class="dropdown-item" type="button">Delete</button></li>
+                </ul>
+              </div>
+            </div>
+            <h5 class="mb-1">Title</h5>
+            <p class="mb-1">Details</p>
+          </a>
+        </div>
+        <div class="container-fluid text-center text-bg-secondary p-3 mt-3 project">
+          AP Psychology
+        </div>
+        <div class="list-group mt-3">
+          <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Completed
+                </label>
+              </div>
+              <small class="text-muted">Date</small>
+              <div class="btn-group dropup">
+                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Actions
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  <li><button class="dropdown-item" type="button">Edit</button></li>
+                  <li><button class="dropdown-item" type="button">Delete</button></li>
+                </ul>
+              </div>
+            </div>
+            <h5 class="mb-1">Title</h5>
+            <p class="mb-1">Details</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
