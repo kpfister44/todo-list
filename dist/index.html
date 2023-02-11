@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Todo List</title>
-  <script defer src="app.bundle.js?34128a984277d8a5867d"></script></head>
+  <script defer src="app.bundle.js?d0e826cf268053cb7f32"></script></head>
   <body>
     <div class="custom-container">
       <nav class="navbar navbar-dark bg-dark">
@@ -67,10 +67,35 @@
         <div class="container-md p-3 mt-3 text-bg-dark">
           <h1>Project 1</h1>
         </div>
-        <div class="container-md p-3">
-          <button type="button" class="btn btn-secondary btn-lg btn-block">Add New Task</button>
+        <div class="container-md shadow p-3 mt-3 bg-light">
+          <form class="new-project-form">
+            <div class="form-floating mb-3">
+              <input type="text" name="title" class="form-control" id="floatingInput" placeholder="Title">
+              <label for="floatingInput">Title</label>
+            </div>
+            <div class="form-floating mb-3">
+              <textarea class="form-control" name="details" placeholder="What are the details?" id="floatingTextarea" style="height: 100px"></textarea>
+              <label for="floatingTextarea">Details</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="date" name="date" class="form-control" id="floatingInput" placeholder="Date">
+              <label for="floatingInput">Date</label>
+            </div>
+            <div class="d-grid gap-2 mt-3">
+              <button class="btn btn-outline-success" id="project-form" type="submit" value="Add">Add</button>
+            </div>
+          </form>
         </div>
-      </div>
+        <div class="container-fluid d-flex align-items-center">
+          <button type="button" class="btn"><i class="bi bi-plus-circle me-3 ms-3" aria-hidden="true"
+              style="font-size: 2rem"></i></button>
+          <h1 class="display-6 mb-0">Add Project</h1>
+        </div>
+        <div class="container-fluid" style="display: none;">
+          <div class="container-md p-3">
+            <button type="button" class="btn btn-secondary btn-lg btn-block">Add New Task</button>
+          </div>
+        </div>
       <div class="container-fluid collapse">
         <div class="container-fluid text-center text-bg-secondary p-3 mt-3 project">
           Summer 23
