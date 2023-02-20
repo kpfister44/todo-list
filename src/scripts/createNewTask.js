@@ -31,6 +31,7 @@ export class Task {
     this._date = date;
   }
 
+
   changeCompletedStatus() {
     if (this._completed === false) {
       this._completed = true;

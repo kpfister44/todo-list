@@ -3,12 +3,15 @@ export class Project {
     constructor(name) {
         this._name = name
         this._tasks = []
+        this._currentTaskDiv = null
     }
 
     get getName() {
         return this._name
     }
-
+    get getTasks() {
+        return this._tasks
+    }
     set changeName(name) {
         this._name = name
     }

@@ -1,4 +1,5 @@
 import { Project } from "./createNewProject"
+import { displayTaskForm } from "./addTaskstoProject"
 
 let project_list = []
 
@@ -11,7 +12,6 @@ function toggleProjectForm() {
     }
 }
 
-
 function addProject(projectObject) {
     project_list.push(projectObject)
 }
@@ -21,89 +21,16 @@ function addProject(projectObject) {
 }
 */
 
-function displayTaskForm() {
-    // create the title component of the form
-    const taskContainer = document.createElement("div")
-    const projectContainer = document.querySelector("#new-project")
-    taskContainer.classList.add("container-md", "shadow", "p-3", "mt-3", "bg-light")
-    projectContainer.appendChild(taskContainer)
-    const taskForm = document.createElement("form")
-    taskForm.classList.add("new-project-form")
-    taskContainer.append(taskForm)
-    const taskTitle = document.createElement("div")
-    taskTitle.classList.add("form-floating", "mb-3")
-    taskForm.appendChild(taskTitle)
-    const taskTitleInput = document.createElement("input")
-    taskTitleInput.setAttribute("type", "text")
-    taskTitleInput.setAttribute("name", "title")
-    taskTitleInput.classList.add("form-control")
-    taskTitleInput.setAttribute("id", "floatingInput")
-    taskTitleInput.setAttribute("placeholder", "Title")
-    taskTitle.appendChild(taskTitleInput)
-    const taskTitleLabel = document.createElement("label")
-    taskTitleLabel.setAttribute("for", "floatingInput")
-    taskTitle.appendChild(taskTitleLabel)
-    const taskTitleLabelText = document.createTextNode("Title");
-    taskTitleLabel.appendChild(taskTitleLabelText)
-
-    // create the details components of the form
-    const taskDetails = document.createElement("div")
-    taskDetails.classList.add("form-floating", "mb-3")
-    taskForm.appendChild(taskDetails)
-    const taskDetailsTextarea = document.createElement("textarea")
-    taskDetailsTextarea.setAttribute("name", "details")
-    taskDetailsTextarea.classList.add("form-control")
-    taskDetailsTextarea.setAttribute("id", "floatingTextarea")
-    taskDetailsTextarea.setAttribute("placeholder", "What are the details?")
-    taskDetailsTextarea.setAttribute("style", "height: 100px")
-    taskDetails.appendChild(taskDetailsTextarea)
-    const taskDetailsLabel = document.createElement("label")
-    taskDetailsLabel.setAttribute("for", "floatingTextarea")
-    taskDetails.appendChild(taskDetailsLabel)
-    const taskDetailsLabelText = document.createTextNode("Details");
-    taskDetailsLabel.appendChild(taskDetailsLabelText)
-
-    // create the date component of the form
-    const taskDate = document.createElement("div")
-    taskDate.classList.add("form-floating", "mb-3")
-    taskForm.appendChild(taskDate)
-    const taskInputDate = document.createElement("input")
-    taskInputDate.setAttribute("type", "date")
-    taskInputDate.setAttribute("name", "date")
-    taskInputDate.classList.add("form-control")
-    taskInputDate.setAttribute("id", "floatingInput")
-    taskInputDate.setAttribute("placeholder", "Date")
-    taskDate.appendChild(taskInputDate)
-    const taskDateLabel = document.createElement("label")
-    taskDateLabel.setAttribute("for", "floatingInput")
-    taskDate.appendChild(taskDateLabel)
-    const taskDateLabelText = document.createTextNode("Date");
-    taskDateLabel.appendChild(taskDateLabelText)
-
-    // create the submit button component of the form
-    const taskButtonContainer = document.createElement("div")
-    taskButtonContainer.classList.add("d-grid", "gap-2", "mt-3")
-    taskForm.appendChild(taskButtonContainer)
-    const taskButton = document.createElement("button")
-    taskButton.classList.add("btn", "btn-outline-success")
-    taskButton.setAttribute("type", "submit")
-    taskButton.setAttribute("id", "task-form")
-    taskButton.setAttribute("value", "Add")
-    taskButtonContainer.appendChild(taskButton)
-    const taskButtonText = document.createTextNode("Add");
-    taskButton.appendChild(taskButtonText)
-}
-
 function displayProject(projectName) {
-    /* 
-    Takes no arguments and displays the projects on the main screen once the submit button is 
-    clicked on the project form.
+    /** 
+     * Takes no arguments and displays the projects on the main screen once the submit button is 
+     * clicked on the project form. This function also calls the displayTaskForm function to create a
+     * collapsed taskForm and adds an EventListener on the Add New Task Button.
     */
 
     const projectContainer = document.createElement("div")
     const navbar = document.querySelector(".navbar")
-    projectContainer.classList.add("container-md", "p-3", "mt-3")
-    projectContainer.setAttribute("id", "new-project")
+    projectContainer.classList.add("container-md", "p-3", "mt-3", "new-project")
     navbar.after(projectContainer)
     const project = document.createElement("div")
     project.classList.add("container-md", "p-3", "mt-3", "text-bg-dark")
@@ -116,7 +43,7 @@ function displayProject(projectName) {
     // Need to attach the collapsed task form div before the button div so we need to call the 
     // displayTaskForm function first
 
-    displayTaskForm()
+    const taskContainer = displayTaskForm()
 
     const newTaskButtonContainer = document.createElement("div")
     newTaskButtonContainer.classList.add("container-md", "p-3")
@@ -124,9 +51,29 @@ function displayProject(projectName) {
     const newTaskButton = document.createElement("button")
     newTaskButton.classList.add("btn", "btn-secondary", "btn-lg", "btn-block")
     newTaskButton.type = "button"
+    newTaskButton.setAttribute("id", "add-new-task-button")
     newTaskButtonContainer.appendChild(newTaskButton)
     const buttonText = document.createTextNode("Add New Task");
     newTaskButton.appendChild(buttonText)
+    // add an EventListener for the Add New Task button
+    newTaskButton.addEventListener("click", (e)=> {
+        /* 
+        This EventListener function toggles the taskForm display and changes the text and 
+        color of the Add New Task Button
+        */
+        const addNewTaskButton = document.querySelector("#add-new-task-button")
+        if (taskContainer.classList.contains('show')) {
+            taskContainer.classList.remove('show')
+            newTaskButton.classList.remove("btn-danger")
+            newTaskButton.classList.add("btn-secondary")
+            newTaskButton.textContent = "Add New Task"
+        } else {
+            taskContainer.classList.add('show')
+            newTaskButton.classList.remove("btn-secondary")
+            newTaskButton.classList.add("btn-danger")
+            newTaskButton.textContent = "Cancel New Task"
+        }
+    })
 }
 
 
@@ -141,11 +88,9 @@ function addEventListeners() {
         const newProjectName = newProjectForm.name.value;
         const newProject = new Project(newProjectName)
         addProject(newProject)
-        console.log(project_list)
         toggleProjectForm()
         displayProject(newProjectName)
         newProjectForm.reset()
-
     })
 }
 
