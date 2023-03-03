@@ -1,10 +1,10 @@
 export class Task {
-  constructor(title, details, date) {
+  constructor(title, details, date, number, taskElement) {
     this._title = title;
     this._details = details;
     this._date = date;
-    this._completed = false;
-    this._starred = false;
+    this._creationNum = number;
+    this._taskElement = taskElement;
   }
   get getTitle() {
     return this._title;
@@ -18,8 +18,11 @@ export class Task {
   get getCompleted() {
     return this._completed;
   }
-  get getStarred() {
-    return this._starred;
+  get getCreationNum() {
+    return this._creationNum;
+  }
+  get getTaskElement() {
+    return this._taskElement;
   }
   set changeTitle(title) {
     this._title = title;

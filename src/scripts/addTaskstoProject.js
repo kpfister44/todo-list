@@ -4,10 +4,10 @@ import { project_list } from "./toggleAddProject"
 
 function displayTaskForm() {
     // create the title component of the form
+    let taskCounter = 0
     const taskContainer = document.createElement("div")
     const projectContainer = document.querySelector("div.new-project")
     taskContainer.classList.add("container-md", "shadow", "p-3", "mt-3", "bg-light", "collapse")
-    taskContainer.setAttribute("id", `task-form-container${project_list.length}`)
     projectContainer.appendChild(taskContainer)
     const taskForm = document.createElement("form")
     taskForm.classList.add("new-project-form")
@@ -74,25 +74,10 @@ function displayTaskForm() {
     taskButtonContainer.appendChild(taskButton)
     const taskButtonText = document.createTextNode("Add");
     taskButton.appendChild(taskButtonText);
-
     // add an EventListener on the submit button to collect the taskForm data
     taskForm.addEventListener("submit", (e) => {
       // gather the taskForm data an create a new Task object with that data
       e.preventDefault();
-      const newTaskForm = e.target;
-      const newTaskTitle = newTaskForm.title.value;
-      console.log(newTaskTitle);
-      const newTaskDetails = newTaskForm.details.value;
-      console.log(newTaskDetails);
-      const newTaskDate = newTaskForm.date.value;
-      console.log(newTaskDate);
-      project_list[parseInt(e.target.id)].createTask(
-        newTaskTitle,
-        newTaskDetails,
-        newTaskDate
-      );
-      taskForm.reset();
-
       // need to create the task display using DOM manipulation
       const taskMainDiv = document.createElement("div");
       taskMainDiv.classList.add(
@@ -107,7 +92,23 @@ function displayTaskForm() {
         "border",
         "border-dark"
       );
+      taskContainer.setAttribute("id",`task-main-div${taskCounter}`)
       taskContainer.after(taskMainDiv);
+      
+      // create task object with form data
+      const newTaskForm = e.target;
+      const newTaskTitle = newTaskForm.title.value;
+      const newTaskDetails = newTaskForm.details.value;
+      const newTaskDate = newTaskForm.date.value;
+      project_list[parseInt(e.target.id)].createTask(
+        newTaskTitle,
+        newTaskDetails,
+        newTaskDate,
+        taskCounter,
+        taskMainDiv
+      );
+      taskForm.reset();
+      // continue to create task display using DOM manipulation
       const taskCheckboxDiv = document.createElement("div");
       taskCheckboxDiv.classList.add(
         "form-check",
@@ -155,19 +156,49 @@ function displayTaskForm() {
       const taskDateParagraphText = document.createTextNode(newTaskDate);
       taskDateParagraph.appendChild(taskDateParagraphText);
       // add edit or delete drop-up button
-      const taskThreeDotButtonDiv = document.createElement("div");
-      taskThreeDotButtonDiv.classList.add(
+
+
+      const taskActionButtonDiv = document.createElement("div");
+      taskActionButtonDiv.classList.add(
         "d-flex",
         "align-items-center",
         "p-2"
       );
-      taskMainDiv.appendChild(taskThreeDotButtonDiv);
-      const taskThreeDotButton = document.createElement("button");
-      taskThreeDotButton.setAttribute("type", "button");
-      taskThreeDotButton.classList.add("btn", "btn-info");
-      taskThreeDotButtonDiv.appendChild(taskThreeDotButton);
-      const taskThreeDotButtonText = document.createTextNode("Three dots");
-      taskThreeDotButton.appendChild(taskThreeDotButtonText);
+      taskMainDiv.appendChild(taskActionButtonDiv);
+      const taskActionDropdownDiv = document.createElement("div")
+      taskActionDropdownDiv.classList.add("dropup")
+      taskActionButtonDiv.appendChild(taskActionDropdownDiv)
+      const taskActionButton = document.createElement("button");
+      taskActionButton.setAttribute("type", "button");
+      taskActionButton.setAttribute("aria-expanded", "false");
+      taskActionButton.setAttribute("data-bs-toggle", "dropdown");
+      taskActionButton.classList.add("btn", "btn-secondary", "dropdown-toggle");
+      taskActionDropdownDiv.appendChild(taskActionButton);
+      const taskActionButtonText = document.createTextNode("Actions");
+      taskActionButton.appendChild(taskActionButtonText);
+      const actionButtonDropupList = document.createElement("ul")
+      actionButtonDropupList.classList.add("dropdown-menu")
+      taskActionButton.after(actionButtonDropupList)
+      // create the task dropup list edit button 
+      const dropupListEditItem = document.createElement("li")
+      actionButtonDropupList.appendChild(dropupListEditItem)
+      const dropupListEditButton = document.createElement("button")
+      dropupListEditButton.classList.add("dropdown-item")
+      dropupListEditButton.setAttribute("type","button")
+      dropupListEditItem.appendChild(dropupListEditButton)
+      const dropupListEditButtonText = document.createTextNode("Edit")
+      dropupListEditButton.appendChild(dropupListEditButtonText)
+      // create the task dropup list delete button 
+      const dropupListDeleteItem = document.createElement("li")
+      actionButtonDropupList.appendChild(dropupListDeleteItem)
+      const dropupListDeleteButton = document.createElement("button")
+      dropupListDeleteButton.classList.add("dropdown-item")
+      dropupListDeleteButton.setAttribute("type","button")
+      dropupListDeleteButton.setAttribute("id",`btn${taskCounter}`)
+      dropupListDeleteItem.appendChild(dropupListDeleteButton)
+      const dropupListDeleteButtonText = document.createTextNode("Delete")
+      dropupListDeleteButton.appendChild(dropupListDeleteButtonText)
+
 
       // add an event listener on the checkbox to strike through the task if clicked
       const taskDetailsTitleDel = document.createElement("del");
@@ -188,6 +219,20 @@ function displayTaskForm() {
           }
         
       })
+
+      // add the event listner for the delete button in the actions dropup menu
+      dropupListDeleteButton.addEventListener("click", (e) => {
+        // loop through the projects list and their tasks until you find the element to be delteted
+        project_list.forEach((project) => {
+          project.getTasks.forEach((task) => {
+            if ("btn" + task.getCreationNum === e.target.id) {
+               const deletedElement = task.getTaskElement
+               deletedElement.remove()
+               project.deleteTask(task.getTitle)
+            }
+          })
+        });
+      })
       
       // hide the taskForm and change color and text of New Task button on submit
       const newTaskButtons = document.querySelectorAll("#add-new-task-button");
@@ -197,8 +242,8 @@ function displayTaskForm() {
         button.classList.add("btn-secondary");
         button.textContent = "Add New Task";
       });
+      taskCounter += 1
     });
-
     return taskContainer;
 }
 

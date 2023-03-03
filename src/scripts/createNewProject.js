@@ -16,8 +16,8 @@ export class Project {
         this._name = name
     }
 
-    createTask(title, details, date) {
-        const newTask = new Task(title, details, date)
+    createTask(title, details, date, number, taskContainer) {
+        const newTask = new Task(title, details, date, number, taskContainer)
         this._tasks.push(newTask)
         console.log(newTask.getTitle)
     }
