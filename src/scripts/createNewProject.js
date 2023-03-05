@@ -3,7 +3,7 @@ export class Project {
     constructor(name) {
         this._name = name
         this._tasks = []
-        this._currentTaskDiv = null
+        this._projectElement = null
     }
 
     get getName() {
@@ -12,8 +12,14 @@ export class Project {
     get getTasks() {
         return this._tasks
     }
+    get getProjectElement() {
+        return this._projectElement
+    }
     set changeName(name) {
         this._name = name
+    }
+    set changeProjectElement(projectElement) {
+        this._projectElement = projectElement
     }
 
     createTask(title, details, date, number, taskContainer) {

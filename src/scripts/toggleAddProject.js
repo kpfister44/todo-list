@@ -28,6 +28,7 @@ function displayProject(projectName) {
      * collapsed taskForm and adds an EventListener on the Add New Task Button.
     */
 
+    let projectCounter = 1
     const projectContainer = document.createElement("div")
     const navbar = document.querySelector(".navbar")
     projectContainer.classList.add("container-md", "p-3", "mt-3", "new-project")
@@ -44,6 +45,21 @@ function displayProject(projectName) {
     // displayTaskForm function first
 
     const taskContainer = displayTaskForm()
+
+    // create the DOM element for the project button on the navbar
+    const navProjectsHeader = document.querySelector(".navbar-projects-header")
+    console.log(navProjectsHeader)
+    const navProjectListItem = document.createElement("li")
+    navProjectListItem.classList.add("mt-3", "d-grid", "gap-2", "col-6")
+    navProjectsHeader.after(navProjectListItem)
+    const navProjectButton = document.createElement("buton")
+    navProjectButton.classList.add("btn", "btn-outline-light", "btn-sm")
+    navProjectButton.setAttribute("id", `project${projectCounter}`)
+    navProjectButton.setAttribute("type", "button")
+    navProjectButton.setAttribute("value", `${projectName}`)
+    navProjectListItem.appendChild(navProjectButton)
+    const navProjectButtonText = document.createTextNode(projectName)
+    navProjectButton.appendChild(navProjectButtonText)
 
     const newTaskButtonContainer = document.createElement("div")
     newTaskButtonContainer.classList.add("container-md", "p-3")
@@ -74,6 +90,8 @@ function displayProject(projectName) {
             newTaskButton.textContent = "Cancel New Task"
         }
     })
+    projectCounter += 1
+    return projectContainer
 }
 
 
@@ -84,13 +102,23 @@ function addEventListeners() {
     addProjectButton.addEventListener("click", toggleProjectForm)
     projectForm.addEventListener("submit", (e)=> {
         e.preventDefault();
+
         const newProjectForm = e.target;
         const newProjectName = newProjectForm.name.value;
+        toggleProjectForm()
         const newProject = new Project(newProjectName)
         addProject(newProject)
-        toggleProjectForm()
-        displayProject(newProjectName)
+        const projectContainerElement = displayProject(newProjectName)
+        newProject.changeProjectElement = projectContainerElement
         newProjectForm.reset()
+        const displayedProject = document.querySelectorAll(".new-project")
+        let counter = 0
+        displayedProject.forEach((project) => {
+            if (counter === 1) {
+                project.remove()
+            }
+            counter += 1
+        });
     })
 }
 

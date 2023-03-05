@@ -107,7 +107,8 @@ function displayTaskForm() {
         taskCounter,
         taskMainDiv
       );
-      taskForm.reset();
+      
+
       // continue to create task display using DOM manipulation
       const taskCheckboxDiv = document.createElement("div");
       taskCheckboxDiv.classList.add(
@@ -144,7 +145,7 @@ function displayTaskForm() {
       taskDetailsParagraphDiv.appendChild(taskDetailsParagraph);
       const taskDetailsSmall = document.createElement("small");
       taskDetailsParagraph.after(taskDetailsSmall);
-      const taskDetailsSmallText = document.createTextNode(newTaskDetails);
+      let taskDetailsSmallText = document.createTextNode(newTaskDetails);
       taskDetailsSmall.appendChild(taskDetailsSmallText);
       //add the date to the task display
       const taskDateDiv = document.createElement("div");
@@ -185,6 +186,7 @@ function displayTaskForm() {
       const dropupListEditButton = document.createElement("button")
       dropupListEditButton.classList.add("dropdown-item")
       dropupListEditButton.setAttribute("type","button")
+      dropupListEditButton.setAttribute("id",`ebtn${taskCounter}`)
       dropupListEditItem.appendChild(dropupListEditButton)
       const dropupListEditButtonText = document.createTextNode("Edit")
       dropupListEditButton.appendChild(dropupListEditButtonText)
@@ -220,6 +222,22 @@ function displayTaskForm() {
         
       })
 
+      // add the event listener for the edit button in the actions dropup menu
+      dropupListEditButton.addEventListener("click", (e) => {
+        // loop through the projects list and their tasks until you find the element to be delteted
+        console.log("inside")
+        project_list.forEach((project) => {
+          project.getTasks.forEach((task) => {
+            if ("ebtn" + task.getCreationNum === e.target.id) {
+               const editedElement = task.getTaskElement
+               editedElement.parentNode.replaceChild(taskContainer, editedElement)
+               taskContainer.classList.add("show")
+               console.log(newTaskDetails)
+            }
+          })
+        });
+      })
+
       // add the event listner for the delete button in the actions dropup menu
       dropupListDeleteButton.addEventListener("click", (e) => {
         // loop through the projects list and their tasks until you find the element to be delteted
@@ -243,6 +261,7 @@ function displayTaskForm() {
         button.textContent = "Add New Task";
       });
       taskCounter += 1
+      taskForm.reset();
     });
     return taskContainer;
 }
