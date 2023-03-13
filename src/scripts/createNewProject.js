@@ -1,13 +1,17 @@
 import { Task } from "./createNewTask"
 export class Project {
-    constructor(name) {
+    constructor(name, projectElement, creationNum) {
         this._name = name
+        this._projectElement = projectElement
+        this._creationNum = creationNum
         this._tasks = []
-        this._projectElement = null
     }
 
     get getName() {
         return this._name
+    }
+    get getCreationNum() {
+        return this._creationNum
     }
     get getTasks() {
         return this._tasks
@@ -17,6 +21,9 @@ export class Project {
     }
     set changeName(name) {
         this._name = name
+    }
+    set changeCreationNum(creationNum) {
+        this._creationNum = creationNum
     }
     set changeProjectElement(projectElement) {
         this._projectElement = projectElement

@@ -2,13 +2,12 @@ import { Project } from "./createNewProject"
 import { project_list } from "./toggleAddProject"
 
 
-function displayTaskForm() {
+function displayTaskForm(projectElement) {
     // create the title component of the form
     let taskCounter = 0
     const taskContainer = document.createElement("div")
-    const projectContainer = document.querySelector("div.new-project")
     taskContainer.classList.add("container-md", "shadow", "p-3", "mt-3", "bg-light", "collapse")
-    projectContainer.appendChild(taskContainer)
+    projectElement.appendChild(taskContainer)
     const taskForm = document.createElement("form")
     taskForm.classList.add("new-project-form")
     taskForm.setAttribute("id", `${project_list.length-1}`)

@@ -2,6 +2,7 @@ import { Project } from "./createNewProject"
 import { displayTaskForm } from "./addTaskstoProject"
 
 let project_list = []
+let projectCreationNum = 1
 
 function toggleProjectForm() {
     const projectButtonDisplay = document.querySelector(".collapse")
@@ -16,54 +17,9 @@ function addProject(projectObject) {
     project_list.push(projectObject)
 }
 
-/*function deleteProject(projectObject) {
-    
-}
-*/
-
-function displayProject(projectName) {
-    /** 
-     * Takes no arguments and displays the projects on the main screen once the submit button is 
-     * clicked on the project form. This function also calls the displayTaskForm function to create a
-     * collapsed taskForm and adds an EventListener on the Add New Task Button.
-    */
-
-    let projectCounter = 1
-    const projectContainer = document.createElement("div")
-    const navbar = document.querySelector(".navbar")
-    projectContainer.classList.add("container-md", "p-3", "mt-3", "new-project")
-    navbar.after(projectContainer)
-    const project = document.createElement("div")
-    project.classList.add("container-md", "p-3", "mt-3", "text-bg-dark")
-    projectContainer.appendChild(project)
-    const projectTitle = document.createElement("h1")
-    project.appendChild(projectTitle)
-    const text = document.createTextNode(projectName);
-    projectTitle.appendChild(text)
-
-    // Need to attach the collapsed task form div before the button div so we need to call the 
-    // displayTaskForm function first
-
-    const taskContainer = displayTaskForm()
-
-    // create the DOM element for the project button on the navbar
-    const navProjectsHeader = document.querySelector(".navbar-projects-header")
-    console.log(navProjectsHeader)
-    const navProjectListItem = document.createElement("li")
-    navProjectListItem.classList.add("mt-3", "d-grid", "gap-2", "col-6")
-    navProjectsHeader.after(navProjectListItem)
-    const navProjectButton = document.createElement("buton")
-    navProjectButton.classList.add("btn", "btn-outline-light", "btn-sm")
-    navProjectButton.setAttribute("id", `project${projectCounter}`)
-    navProjectButton.setAttribute("type", "button")
-    navProjectButton.setAttribute("value", `${projectName}`)
-    navProjectListItem.appendChild(navProjectButton)
-    const navProjectButtonText = document.createTextNode(projectName)
-    navProjectButton.appendChild(navProjectButtonText)
-
+function createNewTaskButton() {
     const newTaskButtonContainer = document.createElement("div")
     newTaskButtonContainer.classList.add("container-md", "p-3")
-    projectContainer.appendChild(newTaskButtonContainer)
     const newTaskButton = document.createElement("button")
     newTaskButton.classList.add("btn", "btn-secondary", "btn-lg", "btn-block")
     newTaskButton.type = "button"
@@ -71,7 +27,7 @@ function displayProject(projectName) {
     newTaskButtonContainer.appendChild(newTaskButton)
     const buttonText = document.createTextNode("Add New Task");
     newTaskButton.appendChild(buttonText)
-    // add an EventListener for the Add New Task button
+
     newTaskButton.addEventListener("click", (e)=> {
         /* 
         This EventListener function toggles the taskForm display and changes the text and 
@@ -90,14 +46,75 @@ function displayProject(projectName) {
             newTaskButton.textContent = "Cancel New Task"
         }
     })
-    projectCounter += 1
-    return projectContainer
+    return newTaskButtonContainer
+}
+function displayProject(projectName) {
+    /** 
+     * Takes no arguments and displays the projects on the main screen once the submit button is 
+     * clicked on the project form. This function also calls the displayTaskForm function to create a
+     * collapsed taskForm and adds an EventListener on the Add New Task Button.
+    */
+  // display the correct Project object's DOM element onto the webpage
+  const projectContainer = document.querySelector(".new-project")
+  if (projectContainer.children.length === 1) {
+    const child = projectContainer.children[0]
+    projectContainer.removeChild(child)
+  }
+  // check to see if a project is already being displayed
+  // iterate through the master project list to find the correct project to be displayed
+  project_list.forEach((project) => {
+    if (project.getName === projectName) {
+        const displayedProjectElement = project.getProjectElement
+        projectContainer.appendChild(displayedProjectElement)
+    }
+  });
+} 
+
+function createNavProjectButton(projectName) {
+    const navProjectsHeader = document.querySelector(".navbar-projects-header")
+    const navProjectListItem = document.createElement("li")
+    navProjectListItem.classList.add("mt-3", "d-grid", "gap-2", "col-6")
+    navProjectsHeader.after(navProjectListItem)
+    const navProjectButton = document.createElement("buton")
+    navProjectButton.classList.add("btn", "btn-outline-light", "btn-sm")
+    navProjectButton.setAttribute("type", "button")
+    navProjectButton.setAttribute("value", `${projectName}`)
+    navProjectListItem.appendChild(navProjectButton)
+    const navProjectButtonText = document.createTextNode(projectName)
+    navProjectButton.appendChild(navProjectButtonText)
+
+    navProjectButton.addEventListener("click", (e)=> {
+        displayProject(projectName)
+    })
+}
+
+function createProject(projectName) {
+    const projectElement = document.createElement("div")
+    projectElement.classList.add("container-md", "p-3", "mt-3")
+    const projectTitleContainer = document.createElement("div")
+    projectTitleContainer.classList.add("container-md", "p-3", "mt-3", "text-bg-dark")
+    projectElement.appendChild(projectTitleContainer)
+    const projectTitle = document.createElement("h1")
+    projectTitleContainer.appendChild(projectTitle)
+    const text = document.createTextNode(projectName);
+    projectTitle.appendChild(text)
+
+    // add a new task button element as a child of the project element
+    const newTaskButtonContainer = createNewTaskButton()
+    projectElement.appendChild(newTaskButtonContainer)
+
+    // create a project button on the navbar
+    createNavProjectButton(projectName)
+
+    //create a Project object and add it to the master project list
+    const newProject = new Project(projectName, projectElement, projectCreationNum)
+    addProject(newProject)
+    projectCreationNum += 1
 }
 
 
 function addEventListeners() {
     const addProjectButton = document.querySelector('#add-project')
-    console.log(addProjectButton)
     const projectForm = document.querySelector('.new-project-form')
     addProjectButton.addEventListener("click", toggleProjectForm)
     projectForm.addEventListener("submit", (e)=> {
@@ -106,19 +123,9 @@ function addEventListeners() {
         const newProjectForm = e.target;
         const newProjectName = newProjectForm.name.value;
         toggleProjectForm()
-        const newProject = new Project(newProjectName)
-        addProject(newProject)
-        const projectContainerElement = displayProject(newProjectName)
-        newProject.changeProjectElement = projectContainerElement
+        createProject(newProjectName)
+        displayProject(newProjectName)
         newProjectForm.reset()
-        const displayedProject = document.querySelectorAll(".new-project")
-        let counter = 0
-        displayedProject.forEach((project) => {
-            if (counter === 1) {
-                project.remove()
-            }
-            counter += 1
-        });
     })
 }
 
